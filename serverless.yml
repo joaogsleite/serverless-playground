@@ -1,0 +1,49 @@
+service: serverless-playground
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: eu-west-2
+  
+
+plugins:
+  - serverless-step-functions
+  - serverless-pseudo-parameters
+
+functions:
+  hello:
+    handler: hello/handler.execute
+
+stepFunctions:
+  validate: true
+  stateMachines:
+    exampleStateMachine:
+      events:
+        - http:
+            path: /go
+            method: GET
+      definition:
+        Comment: "My Example State Machine"
+        StartAt: Entrypoint
+        States:
+          Entrypoint:
+            Type: Task
+            Next: ChoiceState
+            Resource:
+              Fn::GetAtt: [hello, Arn]
+          ChoiceState:
+            Type: Choice
+            Choices:
+            - Variable: "$.value"
+              NumericEquals: 1
+              Next: FirstMatchState
+            - Variable: "$.value"
+              NumericEquals: 2
+              Next: SecondMatchState
+            Default: FirstMatchState
+          FirstMatchState:
+            Type: Pass
+            End: true
+          SecondMatchState:
+            Type: Pass
+            End: true

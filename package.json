@@ -1,0 +1,17 @@
+{
+  "name": "serverless-playground",
+  "version": "1.0.0",
+  "description": "",
+  "dependencies": {},
+  "devDependencies": {
+    "serverless": "^1.69.0",
+    "serverless-pseudo-parameters": "^2.5.0",
+    "serverless-step-functions": "^2.18.0"
+  },
+  "scripts": {
+    "serverless:deploy": "serverless deploy",
+    "serverless:remove": "serverless remove"
+  },
+  "author": "joaogsleite",
+  "license": "MIT"
+}
